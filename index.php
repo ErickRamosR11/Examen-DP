@@ -1,25 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <title>Document</title>
-    <style>
-        body{
-            background-color:black;
-        }
-    </style>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <title>Document</title>
+        <style>
+            body{
+                background-color:black;
+            }
+            </style>
 </head>
 <body>
-<input type="button" id="consumir" value="consumir" />
-
-<script>
+    <input type="button" id="consumir" value="consumir" />
+    
+    <script>
+    //import fs from 'browserify-fs';
+    var fs = require('browserify-fs');
    $( "#consumir" ).click(function() {
         $.get( "https://my-json-server.typicode.com/dp-danielortiz/dptest_jsonplaceholder/items", function( data ) {
-   // $( ".result" ).html( data );
-    console.log( data );
+        var json = JSON.stringify(data);
+        var green = JSON.parse(json).filter(({color}) => color === 'green');
+        var tennis = JSON.stringify(green);
+        console.log(tennis)   
+
+        fs.writeFile("./Respuesta1.json",tennis, err =>{
+            if(err){
+                console.log("Error al escribir en el archivo", err)
+            } else{
+                console.log("Json fue escrito correctamente en el archivo")
+            }
+        })
+        //console.log( json );
     });
     // $.ajax({
     //     url: 'https://my-json-server.typicode.com/dp-danielortiz/dptest_jsonplaceholder/items',
